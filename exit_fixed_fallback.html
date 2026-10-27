@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>Trex Games</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:Arial,sans-serif}
+#gameFrame{position:fixed;inset:0;width:100%;height:100%;border:0;background:#000;z-index:1}
+.top-bar{position:fixed;top:max(0px,env(safe-area-inset-top));left:0;right:0;padding:9px 14px;display:flex;justify-content:space-between;align-items:center;z-index:10;pointer-events:none}
+.icon-btn{pointer-events:auto;width:44px;height:44px;border-radius:50%;border:1px solid #555;background:rgba(20,20,25,.94);color:#fff;display:grid;place-items:center;box-shadow:0 4px 14px #0008;cursor:pointer}
+.icon-btn svg{width:22px;height:22px;stroke:#fff;stroke-width:2.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.fallback{position:fixed;z-index:5;left:20px;right:20px;top:50%;transform:translateY(-50%);text-align:center;background:#111;border:1px solid #333;border-radius:18px;padding:22px 18px;display:none}
+.fallback p{color:#ccc;font-size:14px;line-height:1.5;margin:0 0 16px}
+.fallback a{display:inline-block;background:#fff;color:#000;text-decoration:none;font-weight:800;border-radius:28px;padding:13px 20px}
+.modal-backdrop{position:fixed;inset:0;z-index:30;background:#000c;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:.2s}
+.modal-backdrop.active{opacity:1;visibility:visible}
+.exit-modal{width:100%;max-width:360px;background:#16161a;border:1px solid #444;border-radius:24px;padding:25px 22px 21px;box-shadow:0 20px 55px #000b}
+.modal-title{font-size:22px;font-weight:900;margin:0 0 10px}
+.modal-desc{font-size:14.5px;font-weight:600;color:#ccc;line-height:1.45;margin:0 0 22px}
+.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modal-actions button{border-radius:30px;padding:13px 0;font-size:15px;font-weight:800;cursor:pointer}
+.btn-cancel{background:#333;border:1px solid #555;color:#fff}
+.btn-exit{background:#fff;border:0;color:#000}
+</style>
+</head>
+<body>
+<iframe id="gameFrame" src="https://www.onlinegameworlds.com/embed/deep-sea-match-3-puzzle" title="Deep Sea Match 3 Puzzle" allow="autoplay; fullscreen; gamepad" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<div class="fallback" id="fallback">
+<p>If the game stays blank inside this local HTML file, open the game directly in your browser.</p>
+<a href="https://www.onlinegameworlds.com/games/deep-sea-match-3-puzzle" target="_blank" rel="noopener">Open Game</a>
+</div>
+<header class="top-bar">
+<button class="icon-btn" type="button" onclick="openExitDialog()" aria-label="Exit game"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+<button class="icon-btn" type="button" onclick="openDirectGame()" aria-label="Open game directly" title="Open game directly"><svg viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg></button>
+</header>
+<div class="modal-backdrop" id="exitModal" onclick="handleBackdropClick(event)" aria-hidden="true">
+<section class="exit-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+<h2 class="modal-title" id="modalTitle">Exit game?</h2>
+<p class="modal-desc">Are you sure you want to exit and return to Trex Games?</p>
+<div class="modal-actions"><button class="btn-cancel" type="button" onclick="closeExitDialog()">Cancel</button><button class="btn-exit" type="button" onclick="confirmExit()">Exit</button></div>
+</section>
+</div>
+<script>
+const exitModal=document.getElementById('exitModal');
+function openExitDialog(){exitModal.classList.add('active');exitModal.setAttribute('aria-hidden','false')}
+function closeExitDialog(){exitModal.classList.remove('active');exitModal.setAttribute('aria-hidden','true')}
+function handleBackdropClick(e){if(e.target===exitModal)closeExitDialog()}
+function confirmExit(){window.location.href='./game.html'}
+function openDirectGame(){window.open('https://www.onlinegameworlds.com/games/deep-sea-match-3-puzzle','_blank','noopener')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&exitModal.classList.contains('active'))closeExitDialog()});
+// Browsers don't reliably expose iframe errors, so offer a direct-open fallback after a short wait.
+setTimeout(()=>{document.getElementById('fallback').style.display='block'},7000);
+</script>
+</body>
+</html>
