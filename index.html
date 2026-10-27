@@ -52,7 +52,6 @@ function confirmExit(){window.location.href='./game.html'}
 function openDirectGame(){window.open('https://www.onlinegameworlds.com/games/deep-sea-match-3-puzzle','_blank','noopener')}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&exitModal.classList.contains('active'))closeExitDialog()});
 // Browsers don't reliably expose iframe errors, so offer a direct-open fallback after a short wait.
-setTimeout(()=>{document.getElementById('fallback').style.display='block'},7000);
 </script>
 </body>
 </html>
